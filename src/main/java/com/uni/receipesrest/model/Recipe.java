@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "recipes")
 @Entity
@@ -26,8 +26,8 @@ public class Recipe {
     private String description;
 
     @NonNull
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "recipe_ingredients_mapping",
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "recipe_ingredients",
             joinColumns = {@JoinColumn(name = "recipe_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "quantity_id", referencedColumnName = "id")})
     @MapKeyJoinColumn(name = "ingredient_id")

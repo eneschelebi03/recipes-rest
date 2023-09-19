@@ -14,11 +14,11 @@ import java.util.Map;
 @AllArgsConstructor
 public class RecipeDto {
 
-    private String uuid;
+    private String id;
 
     private String title;
 
     private String description;
 
-    private Map<IngredientDto, QuantityDto> ingredients;
+    private Map<String, QuantityDto> ingredients;
 }

@@ -30,6 +30,7 @@ gradlew.*
 gradlew
 build.gradle
 settings.*
+src/main/resources/application.yml
 
 ### NetBeans ###
 /nbproject/private/
