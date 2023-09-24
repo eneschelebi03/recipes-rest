@@ -1,10 +1,7 @@
 package com.uni.receipesrest.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -12,7 +9,8 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "quantities")
+@Table(name = "quantities",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"quantity", "measurement_id"})})
 @Entity
 public class Quantity {
 

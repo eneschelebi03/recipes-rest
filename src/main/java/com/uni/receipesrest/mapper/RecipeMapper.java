@@ -5,9 +5,7 @@ import com.uni.receipesrest.model.Quantity;
 import com.uni.receipesrest.model.Recipe;
 import com.uni.receipesrest.model.dto.QuantityDto;
 import com.uni.receipesrest.model.dto.RecipeDto;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,6 +16,10 @@ public abstract class RecipeMapper {
 
     @Mapping(target = "ingredients", source = "ingredients", qualifiedByName = "ingredientsToDtoIngredients")
     public abstract RecipeDto recipeToRecipeDto(Recipe recipe);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "ingredients", source = "ingredients", qualifiedByName = "ingredientsDtoToIngredients")
+    public abstract Recipe recipeUpdateFromDto(RecipeDto recipeDto);
 
     @Mapping(target = "ingredients", source = "ingredients", qualifiedByName = "ingredientsDtoToIngredients")
     public abstract Recipe recipeDtoToRecipe(RecipeDto recipeDto);

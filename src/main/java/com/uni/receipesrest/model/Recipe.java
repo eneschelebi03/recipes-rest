@@ -19,14 +19,13 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NonNull
+    @Column(nullable = false)
     private String title;
 
-    @NonNull
+    @Column(nullable = false)
     private String description;
 
-    @NonNull
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "recipe_ingredients",
             joinColumns = {@JoinColumn(name = "recipe_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "quantity_id", referencedColumnName = "id")})

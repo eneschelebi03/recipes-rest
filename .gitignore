@@ -16,6 +16,7 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+main/resources/application.yml
 
 ### IntelliJ IDEA ###
 .idea
@@ -30,7 +31,6 @@ gradlew.*
 gradlew
 build.gradle
 settings.*
-src/main/resources/application.yml
 
 ### NetBeans ###
 /nbproject/private/

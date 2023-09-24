@@ -6,12 +6,10 @@ import com.uni.receipesrest.model.Quantity;
 import com.uni.receipesrest.model.Recipe;
 import com.uni.receipesrest.model.dto.RecipeDto;
 import com.uni.receipesrest.repository.RecipeRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,10 +43,33 @@ public class RecipeService {
                 .collect(Collectors.toList());
     }
 
-    public void saveRecipe(RecipeDto recipeDto) {
+    public void saveRecipeFromDto(RecipeDto recipeDto) {
 
         Recipe toSave = this.recipeMapper.recipeDtoToRecipe(recipeDto);
 
+        this.saveRecipe(toSave);
+    }
+
+
+
+    public RecipeDto updateRecipe(String id, RecipeDto recipeDto) {
+
+        Optional<Recipe> recipeOpt = this.recipeRepository.getRecipeById(UUID.fromString(id));
+
+        if (recipeOpt.isEmpty()) {
+            return null;
+        }
+
+
+        Recipe recipeToUpdate = recipeOpt.get();
+        this.recipeRepository.delete(recipeToUpdate);
+        recipeToUpdate = this.recipeMapper.recipeUpdateFromDto(recipeDto);
+        
+        return this.saveRecipe(recipeToUpdate);
+    }
+
+    @NotNull
+    private RecipeDto saveRecipe(Recipe toSave) {
         Map<Ingredient, Quantity> savedIngredients = new LinkedHashMap<>();
 
         for (Map.Entry<Ingredient, Quantity> entry : toSave.getIngredients().entrySet()) {
@@ -60,6 +81,18 @@ public class RecipeService {
 
         toSave.setIngredients(savedIngredients);
 
-        this.recipeRepository.save(toSave);
+        return this.recipeMapper.recipeToRecipeDto(recipeRepository.save(toSave));
+    }
+
+    public RecipeDto deleteRecipe(String id) {
+
+        Optional<Recipe> recipeOpt = this.recipeRepository.getRecipeById(UUID.fromString(id));
+
+        if (recipeOpt.isEmpty()) {
+            return null;
+        }
+
+        this.recipeRepository.delete(recipeOpt.get());
+        return this.recipeMapper.recipeToRecipeDto(recipeOpt.get());
     }
 }
